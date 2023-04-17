@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fast-api-ed"
+version = "0.1.0"
+description = ""
+authors = ["annett21 <annettarasevich@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fast_api_ed"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.95.1"}
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+mypy = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
