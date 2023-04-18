@@ -1,8 +1,8 @@
 from enum import Enum
-
-from fastapi import FastAPI, Query
-from pydantic import BaseModel
 from typing import Annotated
+
+from fastapi import FastAPI, Path, Query
+from pydantic import BaseModel
 
 
 class ModelName(str, Enum):
@@ -19,18 +19,29 @@ async def root():
     return {"message": "Hello World"}
 
 
+# @app.get("/items/{item_id}")
+# async def read_item(item_id: str, q: str | None = None, short: bool = False):
+#     item = {"item_id": item_id}
+#     if q:
+#         item.update({"q": q})
+#     if not short:
+#         item.update(
+#             {
+#                 "description": "This is an amazing item that has a long description"
+#             }
+#         )
+#     return item
+
+
 @app.get("/items/{item_id}")
-async def read_item(item_id: str, q: str | None = None, short: bool = False):
-    item = {"item_id": item_id}
+async def read_item(
+    item_id: Annotated[int, Path(title="The ID of thr item to get", ge=2)],
+    q: Annotated[str | None, Query(alias="item-query")] = None,
+):
+    results = {"item_id": item_id}
     if q:
-        item.update({"q": q})
-    if not short:
-        item.update(
-            {
-                "description": "This is an amazing item that has a long description"
-            }
-        )
-    return item
+        results.update({"q": q})
+    return results
 
 
 @app.get("/models/{model_name}")
@@ -97,3 +108,19 @@ async def create_item(item: Item):
 async def read_items(q: Annotated[list[str] | None, Query()] = None):
     query_items = {"q": q}
     return query_items
+
+
+@app.put("/items/{item_id}")
+async def update_item(
+    item_id: Annotated[
+        int, Path(title="The ID of the item to get", ge=0, le=1000)
+    ],
+    q: str | None = None,
+    item: Item | None = None,
+):
+    results = {"item_id": item_id}
+    if q:
+        results.update({"q": q})
+    if item:
+        results.update({"item": item})
+    return results
