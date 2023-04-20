@@ -10,6 +10,7 @@ packages = [{include = "fast_api_ed"}]
 python = "^3.10"
 fastapi = {extras = ["all"], version = "^0.95.1"}
 email-validator = "^2.0.0.post1"
+python-multipart = "^0.0.6"
 
 
 [tool.poetry.group.dev.dependencies]
