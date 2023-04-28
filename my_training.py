@@ -89,3 +89,11 @@ class UserIn(BaseUser):
 @new_app.post("/user/")
 async def create_user(user: UserIn) -> BaseUser:
     return user
+
+
+# async def get_db():
+#     db = DBSession()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
